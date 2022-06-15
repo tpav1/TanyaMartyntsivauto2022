@@ -1,76 +1,42 @@
-user = User.new
-
-Given(/^Gitlab signup page is opened$/) do
-@sign_up_page = SignUpPage.new
-@sign_up_page.load
+Given(/^Gitlab sign up page is opened$/) do
+  visit 'https://gitlab.testautomate.me/users/sign_up'
 end
 
 When(/^I fill in first name$/) do
-  @sign_up_page.first_name_field.set user.firstname
+  @user = User.new
+  find('#new_user_first_name').set @user.firstname
 end
 
 And(/^I fill in last name$/) do
-  @sign_up_page.last_name_field.set user.lastname
+  find('#new_user_last_name').set @user.lastname
 end
 
-And(/^I fill in username$/) do
-  @sign_up_page.username_field.set user.username
+And(/^I fill in new username$/) do
+  find('#new_user_username').set @user.username
 end
 
-And(/^I fill in email$/) do
-  @sign_up_page.user_email_field.set user.email
+And(/^I fill in new email$/) do
+  find('#new_user_email').set @user.email
 end
 
-And(/^I fill in password$/) do
-  @sign_up_page.password_field.set user.password
+And(/^I fill in new password$/) do
+  find('#new_user_password').set @user.password
 end
 
-And(/^I click register button$/) do
-  @sign_up_page.register_btn.click
+And(/^I click Register button$/) do
+  find('input[data-qa-selector="new_user_register_button"]').click
 end
 
-Then(/^I see Welcome to GitLab text$/) do
-  @welcome_page = WelcomePage.new
-  expect(@welcome_page.welcome_msg.text).to eql "Welcome to GitLab,\n#{user.firstname}!"
+Then(/^I see that user is registered$/) do
+  expect(find('#content-body h2').text).to eql "Welcome to GitLab,\n#{@user.firstname}!"
 end
 
-#Given(/^Gitlab user is signed up$/) do
-#user
-#end
+When(/^I register user via UI$/) do
+  @user = User.new
+  sign_up_user @user
 
-file_to_save = File.new("current_user_credentials.rtf", 'w+')
-file_to_save.puts(user.username, user.password)
-file_to_save.close
+  user_credentials = { username: @user.username, password: @user.password }.to_json
 
-#And(/^I select role$/) do
-#@welcome_page.user_role.set 'Software Developer'
-#sleep 1
-#end
+  File.open('user.json', 'w') { |file| file.write(user_credentials) }
+end
 
-#And(/^I click get started$/) do
-# @welcome_page.get_started_btn.click
-# sleep 1
-#end
-
-#Then(/^I see GitLab quote$/) do
-#expect(@welcome_page.gitlab_quote.text).to eql '#<p class="gl-m-0">Faster releases. Better code. Less pain.</p>'
-#sleep 1
-#end
-
-#Given(/^I am signed up$/) do
-# user
-#end
-
-
-#And(/^I click header user drop\-down toggle$/) do
-# @home_page.chevron_down_icon.click
-#end
-
-#And(/^I click sign out$/) do
-#@home_page.sign_out_btn.click
-#end
-
-#Then(/^I see sign in page$/) do
-#@sign_in_page.load
-#sleep 2
-#end
