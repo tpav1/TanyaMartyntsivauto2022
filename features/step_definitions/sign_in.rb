@@ -33,3 +33,4 @@ Then(/^I see that new user is logged in$/) do
   @new_user_welcome_page = NewUserWelcomePage.new
   expect(@new_user_welcome_page.welcome_msg.text).to include 'Welcome to GitLab'
 end
+
