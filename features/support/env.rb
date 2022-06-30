@@ -23,8 +23,13 @@ Before do
   end
 end
 
+
 at_exit do
-  File.delete('user.json') if File.exist?('user.json')
+File.delete('Project_owner_user.json') if File.exist?('Project_owner_user.json')
+end
+
+at_exit do
+File.delete('Developer_user.json') if File.exist?('Developer_user.json')
 end
 
 World(FeatureHelper)
