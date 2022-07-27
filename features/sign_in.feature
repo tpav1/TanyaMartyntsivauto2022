@@ -1,5 +1,7 @@
+@selenium
 Feature: Sign in feature
 
+  @sign_in
   Scenario: User can log in
     Given Gitlab login page is opened
     When I fill in username

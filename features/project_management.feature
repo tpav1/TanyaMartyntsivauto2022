@@ -1,3 +1,4 @@
+@selenium
 Feature: This is a course milestone script
 
   Scenario: Users can efficiently perform project management in GitLab
